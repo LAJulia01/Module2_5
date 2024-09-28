@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:module2_5/views/custombutton.dart';
+import 'package:module2_5/views/customfield.dart';
 
 class FormPage extends StatefulWidget {
   const FormPage({super.key});
@@ -8,19 +10,24 @@ class FormPage extends StatefulWidget {
 
 class _FormPageState extends State<FormPage> {
   final _formKey = GlobalKey<FormState>();
+  final txtController = TextEditingController();
+  final txtController1 = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Form Validation'),
-      ), // AppBar
+        title: const Center(child: Text('Form Validation')),
+      ),
       body: Form(
         key: _formKey,
         child: Center(
           child: Column(
             children: [
+              
+
               TextFormField(
-                // The validator receives the text that the user has entered.
+                controller: txtController,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter some text';
@@ -28,20 +35,47 @@ class _FormPageState extends State<FormPage> {
                   return null;
                 },
               ),
-              //Your widgets
+              
               ElevatedButton(
                 onPressed: () {
-                      // Validate returns true if the form is valid, or false otherwise.
-                  if (_formkey.currentState!.validate()) {
-                      // If the form is valid, display a snackbar. In the real world,
-                      // you'd often call a server or save the information in a database.
+                  var input = txtController.text;
+                  if (_formKey.currentState!.validate()) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Processing Data')),
+                      SnackBar(content: Text('You entered $input')),
                     );
                   }
                 },
                 child: const Text('Submit'),
-              ), // ElevatedButton
+              ),
+              CustomTextField(
+                controller_: txtController,
+                isPassword_: false,
+                error_: 'The username must not be empty!',
+                hintText_: 'Enter your username',
+                labelText_: 'USERNAME',
+              ),
+
+              CustomTextField(
+                controller_: txtController1,
+                isPassword_: true,
+                error_: 'The password must not be empty!',
+                hintText_: 'Enter your password',
+                labelText_: 'PASSWORD',
+              ),
+
+              CustomButton(
+                btnText_: 'LOGIN',
+                onPressed_: () {
+                  var input = txtController.text;
+                  if (_formKey.currentState!.validate()) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('You entered $input')),
+                    );
+                  }
+                }, //snackbar
+              ),
+              
+              //Your widgets
             ],
           ), // Column
         ), // Center
