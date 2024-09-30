@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:module2_5/views/timepcikerexample.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +17,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const TimePickerExample(),
+      home: const MyApp(),
     );
   }
 }
