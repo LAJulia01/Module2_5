@@ -187,6 +187,7 @@ import 'package:flutter/material.dart';
 class Register extends StatelessWidget {
   const Register({super.key});
 
+
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
@@ -208,6 +209,14 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _birthDateController = TextEditingController();
   final TextEditingController _startTimeController = TextEditingController();
   final TextEditingController _endTimeController = TextEditingController();
+
+  final _formKey = GlobalKey<FormState>();
+  String _name = '';
+  String _username = '';
+  String _password = '';
+  String _confirmPassword = '';
+  String _gender = 'Male';
+  DateTime _birthdate = DateTime.now();
 
   // Dropdown Gender options
   String dropdownGender = 'Male'; // Default gender
@@ -426,9 +435,164 @@ class _RegisterPageState extends State<RegisterPage> {
               },
               child: const Text('Submit'),
             ),
+            TextFormField(
+                decoration: const InputDecoration(labelText: 'Name'),
+                onSaved: (value) => _name = value!,
+              ),
+              TextFormField(
+                decoration: const InputDecoration(labelText: 'Username'),
+                onSaved: (value) => _username = value!,
+              ),
+              TextFormField(
+                decoration: const InputDecoration(labelText: 'Password'),
+                obscureText: true,
+                onSaved: (value) => _password = value!,
+              ),
+              TextFormField(
+                decoration: const InputDecoration(labelText: 'Confirm Password'),
+                obscureText: true,
+                onSaved: (value) => _confirmPassword = value!,
+              ),
+              DropdownButtonFormField<String>(
+                value: _gender,
+                decoration: const InputDecoration(labelText: 'Gender'),
+                items: ['Male', 'Female', 'Other']
+                    .map((label) => DropdownMenuItem(
+                          child: Text(label),
+                          value: label,
+                        ))
+                    .toList(),
+                onChanged: (value) {
+                  setState(() {
+                    _gender = value!;
+                  });
+                },
+              ),
+              TextFormField(
+                decoration: const InputDecoration(labelText: 'Birthdate'),
+                readOnly: true,
+                onTap: () async {
+                  DateTime? pickedDate = await showDatePicker(
+                    context: context,
+                    initialDate: _birthdate,
+                    firstDate: DateTime(1900),
+                    lastDate: DateTime.now(),
+                  );
+                  if (pickedDate != null && pickedDate != _birthdate) {
+                    setState(() {
+                      _birthdate = pickedDate;
+                    });
+                  }
+                },
+                controller: TextEditingController(
+                  text: "${_birthdate.toLocal()}".split(' ')[0],
+                ),
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    _formKey.currentState!.save();
+                    // Handle registration logic here
+                  }
+                },
+                child: const Text('Register'),
+              ),
           ],
         ),
       ),
     );
   }
 }
+// class _SignInPageState extends State<Register> {
+//   final _formKey = GlobalKey<FormState>();
+//   String _name = '';
+//   String _username = '';
+//   String _password = '';
+//   String _confirmPassword = '';
+//   String _gender = 'Male';
+//   DateTime _birthdate = DateTime.now();
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('Sign In'),
+//       ),
+//       body: Padding(
+//         padding: const EdgeInsets.all(16.0),
+//         child: Form(
+//           key: _formKey,
+//           child: ListView(
+//             children: <Widget>[
+//               TextFormField(
+//                 decoration: InputDecoration(labelText: 'Name'),
+//                 onSaved: (value) => _name = value!,
+//               ),
+//               TextFormField(
+//                 decoration: InputDecoration(labelText: 'Username'),
+//                 onSaved: (value) => _username = value!,
+//               ),
+//               TextFormField(
+//                 decoration: InputDecoration(labelText: 'Password'),
+//                 obscureText: true,
+//                 onSaved: (value) => _password = value!,
+//               ),
+//               TextFormField(
+//                 decoration: InputDecoration(labelText: 'Confirm Password'),
+//                 obscureText: true,
+//                 onSaved: (value) => _confirmPassword = value!,
+//               ),
+//               DropdownButtonFormField<String>(
+//                 value: _gender,
+//                 decoration: InputDecoration(labelText: 'Gender'),
+//                 items: ['Male', 'Female', 'Other']
+//                     .map((label) => DropdownMenuItem(
+//                           child: Text(label),
+//                           value: label,
+//                         ))
+//                     .toList(),
+//                 onChanged: (value) {
+//                   setState(() {
+//                     _gender = value!;
+//                   });
+//                 },
+//               ),
+//               TextFormField(
+//                 decoration: InputDecoration(labelText: 'Birthdate'),
+//                 readOnly: true,
+//                 onTap: () async {
+//                   DateTime? pickedDate = await showDatePicker(
+//                     context: context,
+//                     initialDate: _birthdate,
+//                     firstDate: DateTime(1900),
+//                     lastDate: DateTime.now(),
+//                   );
+//                   if (pickedDate != null && pickedDate != _birthdate) {
+//                     setState(() {
+//                       _birthdate = pickedDate;
+//                     });
+//                   }
+//                 },
+//                 controller: TextEditingController(
+//                   text: "${_birthdate.toLocal()}".split(' ')[0],
+//                 ),
+//               ),
+//               SizedBox(height: 20),
+//               ElevatedButton(
+//                 onPressed: () {
+//                   if (_formKey.currentState!.validate()) {
+//                     _formKey.currentState!.save();
+//                     // Handle registration logic here
+//                   }
+//                 },
+//                 child: Text('Register'),
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
