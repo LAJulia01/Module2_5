@@ -184,6 +184,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  styled:
+    dependency: "direct main"
+    description:
+      name: styled
+      sha256: d16a4cc15c173bcb6954e3f9ee038baa939f34a64df13dc5fc6b8dcdce44f228
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.0"
   term_glyph:
     dependency: transitive
     description:
